@@ -57,10 +57,48 @@
 </head>
 <body>
 
-<div class="coming-soon">
-  <h1>Coming Soon</h1>
-  <p>This post is in the works. Stay tuned.</p>
-</div>
+<article>
+  <h1>01 — Building Micrograd</h1>
+  <p class="sub">so this is my journey of understanding what an autograd is, understadning mathematics behind back propagationa and implementing it from scratch. might have a few rants, so keep it up for me</p>
+
+  <p>
+    Half an hour into reading <a href="https://github.com/karpathy/micrograd" target="_blank">karpathy's repo</a> I had the though : "why build this when PyTorch already exists?"
+    PyTorch is fast, works on tensors and a one-line <code>.backward()</code> that runs on CUDA and you're done. But that one line is also a black box.
+    A micrograd rips that black box open gives a detailed undersdtanding of what's happening behind the mask.
+    </p>
+
+    <div class="note warn">
+      <strong>Rant:</strong> I start watching the video — 10 seconds in I already have a set of doubts for Claude; I spend 10 minutes cross-questioning and the cycle loops.
+    </div>
+
+    <h3>Quick comparison</h3>
+  <ul>
+    <li><strong>PyTorch:</strong> Optimized C++/CUDA backend, tensor/array operations, automatic vectorized gradients, production-ready performance. You call <code>.backward()</code> and the library handles everything for you.</li>
+    <li><strong>Micrograd / tiny autograd:</strong> Plain Python implementation, node-by-node and number-by-number gradient propagation, extremely slow but crystal-clear about every step of backpropagation — ideal for learning the mechanics under the hood.</li>
+  </ul>
+
+</article>
+  
+  <h3>Backpropagation — in a nutshell</h3>
+  <p>
+    At training time we measure a loss L (how wrong the model is). Backpropagation computes the partial derivatives of that loss with respect to each parameter (weights and biases) using the chain rule. For a single neuron with
+    <code>z = w * x + b</code> and output <code>y = f(z)</code>, the gradient of the loss w.r.t the weight is
+    <code>dL/dw = dL/dy * dy/dz * dz/dw</code> (and <code>dz/dw = x</code>).
+  </p>
+
+  <p>
+    Once we have the gradient, parameters are updated with a simple gradient-descent step:
+    <code>w_new = w - &eta; * dL/dw</code> and <code>b_new = b - &eta; * dL/db</code>, where <code>&eta;</code> is the <span class="build">learning rate — a small positive scalar that controls step size. Too large and training diverges; too small and learning is painfully slow.</span>
+  </p>
+
+  <h4>ReLU (very short)</h4>
+  <p>
+    ReLU is the activation function <code>ReLU(x) = max(0, x)</code>. Its derivative is 1 for positive inputs and 0 for negative inputs, which makes it simple and effective in practice.
+  </p>
+
+  <div class="note warn">
+    <strong>Rant:</strong> I start watching the video — 10 seconds in I already have a set of doubts for Claude; I spend 10 minutes cross-questioning and the cycle loops.
+  </div>
 
 </body>
 </html>
