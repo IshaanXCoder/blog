@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deep in the Stack</title>
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 6rem;
+    color: #1a1a1a;
+    background: #fff;
+  }
+  h1 { font-size: 1.75rem; margin: 0 0 .25rem; }
+  h2 { font-size: 1.3rem; margin: 2.5rem 0 .75rem; padding-top: 1rem; border-top: 1px solid #ddd; }
+  h3 { font-size: 1.05rem; margin: 1.75rem 0 .5rem; }
+  .sub { color: #666; margin: 0 0 1.5rem; font-size: .9rem; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: .9rem; }
+  th, td { border: 1px solid #ccc; padding: .4rem .6rem; text-align: left; vertical-align: top; }
+  th { background: #f2f2f2; font-weight: 600; }
+  code { background: #f2f2f2; padding: .1rem .3rem; border-radius: 3px; font-size: .85em; }
+  .note { border-left: 3px solid #999; padding: .6rem 0 .6rem 1rem; margin: 1.25rem 0; color: #444; }
+  .warn { border-left-color: #c0392b; }
+  .build { color: #1a7f37; font-weight: 600; }
+  .partner { color: #DE7356; font-weight: 600; }
+  .skip { color: #c0392b; font-weight: 600; }
+  .have { color: #0969da; font-weight: 600; }
+  ul, ol { padding-left: 1.4rem; }
+  li { margin: .3rem 0; }
+  .wrap { overflow-x: auto; }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .card {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 1.25rem;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: border-color 0.15s ease;
+  }
+  .card:hover { border-color: #999; }
+  .card h3 { font-size: 1rem; margin: 0 0 .35rem; }
+  .card .meta { font-size: .8rem; color: #888; margin: 0; }
+  .card .desc { font-size: .9rem; color: #555; margin: .6rem 0 0; }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e4e4e4; background: #191919; }
+    h2 { border-top-color: #3a3a3a; }
+    th { background: #262626; }
+    th, td { border-color: #3a3a3a; }
+    code { background: #262626; }
+    .sub { color: #999; }
+    .note { color: #bbb; border-left-color: #666; }
+    .warn { border-left-color: #e74c3c; }
+    .build { color: #3fb950; }
+    .partner { color: #DE7356; }
+    .skip { color: #f85149; }
+    .have { color: #58a6ff; }
+    .card { border-color: #3a3a3a; }
+    .card:hover { border-color: #555; }
+    .card .meta { color: #777; }
+    .card .desc { color: #aaa; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Deep in the Stack</h1>
+<p class="sub">
+  Exploring AI infrastructure, one layer at a time
+</p>
+
+<h2>How This Started</h2>
+<p>
+  I was bored. Just scrolling X, watching the same surface-level AI news over and over, new model drops, benchmark scores(kimi k3 killed fable), the usual hype cycle.
+  Struck my mind that:
+  </p>
+  <div class="note warn">
+    <strong>i'm just consuming some info superficially, idk what is happening under the hood.</strong>
+  </div>
+<p>
+  Was having a conversation with a junior(few days back, he asked me to explore inference for fun) and a friend. Gave a bunch of resources, told me to dive into Andrej Karpathy's playlist on YouTube(pretty long, i just referred <a href="https://youtube.com/playlist?list=PLR_YO5t3LK6o&si=Pe8R0jk0XlUkGrOL" target="_blank">these</a>).
+</p>
+<p>
+  So I did. Randomly, almost on a whim. I started watching, started coding, started
+  making a plan(<span class="partner">hey claude, make me a plan</span>) 
+  
+and yes i'm on hopium that i learn something new and build all of this from scratch, lets see how it goes. v0 plan which i have in my mind is.
+  <p>
+  build micrograd + understand
+  backprop → build a transformer from scratch → write a GPT tokenizer → build a mini
+  GPT → read around vLLM → eventually, build a mini vLLM.
+</p>
+<p>
+  This blog is the documentation of that journey. Every step, every build, every
+  misunderstanding along the way.
+</p>
+
+<h2>Posts</h2>
+<div class="cards">
+  <a href="posts/01-micrograd.html" class="card">
+    <h3>01 - Building Micrograd</h3>
+    <p class="meta">Autograd from scratch</p>
+    <p class="desc">Starting with building undergrad.</p>
+  </a>
+  <a href="posts/02-transformers.html" class="card">
+    <h3>02 - The Transformer Architecture</h3>
+    <p class="meta">Attention is all you need</p>
+    <p class="desc">Breaking down attention, positional encoding, and the encoder-decoder stack.</p>
+  </a>
+  <a href="posts/03-mini-gpt.html" class="card">
+    <h3>03 - Mini GPT &amp; Tokenizer</h3>
+    <p class="meta">From tokens to text</p>
+    <p class="desc">Building a BPE tokenizer and training a small GPT-style model from the ground up.</p>
+  </a>
+  <a href="posts/04-mini-vllm.html" class="card">
+    <h3>04 - Mini vLLM</h3>
+    <p class="meta">The end goal</p>
+    <p class="desc">Building a simplified inference engine with PagedAttention and continuous batching.</p>
+  </a>
+</div>
+
+</body>
+<script>
+  function warn(text, selector) {
+    const el = document.createElement('div');
+    el.className = 'note warn';
+    el.textContent = text;
+    if (selector) {
+      const ref = document.querySelector(selector);
+      if (ref && ref.parentNode) ref.parentNode.insertBefore(el, ref);
+      else document.body.appendChild(el);
+    } else {
+      document.body.appendChild(el);
+    }
+    return el;
+  }
+  window.warn = warn;
+</script>
+</html>
