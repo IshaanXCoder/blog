@@ -63,6 +63,10 @@
   .post-item:hover { border-color: #999; }
   .post-item a { color: inherit; text-decoration: none; font-weight: 600; line-height: 1.35; }
   .post-item a:hover { color: #1a7f37; }
+  .post-item-published:hover { background: rgba(192, 57, 43, .8); border-color: rgba(192, 57, 43, .8); color: #fff; }
+  .post-item-published:hover a,
+  .post-item-published:hover a:hover,
+  .post-item-published:hover .badge-published { background: transparent; color: #fff; }
   .badge {
     font-size: .7rem;
     padding: .15rem .45rem;
@@ -72,7 +76,10 @@
     letter-spacing: .03em;
   }
   .badge-published { background: #e6f4ea; color: #1a7f37; }
-  .badge-upcoming { background: #fef7e0; color: #9a6700; }
+  .badge-published:hover { background: rgba(192, 57, 43, .8); color: #fff; }
+  .badge-upcoming { background: #fef7e0; color: #9a6700; text-decoration: line-through; }
+  .badge-not-coming { background: rgba(192, 57, 43, .8); color: #fff; }
+  .status-badges { display: flex; gap: .4rem; flex-wrap: wrap; }
   .site-footer { margin-top: 4rem; padding-top: 1rem; border-top: 1px solid #ddd; color: #666; font-size: .85rem; }
   .site-footer p { margin: .2rem 0; }
   .site-footer a { color: inherit; margin-right: .75rem; }
@@ -93,8 +100,11 @@
     .back-link:hover { color: #e4e4e4; }
     .post-item { border-color: #3a3a3a; }
     .post-item:hover { border-color: #555; }
+    .post-item-published:hover { background: rgba(248, 81, 73, .8); border-color: rgba(248, 81, 73, .8); }
     .badge-published { background: #1a3a2a; color: #3fb950; }
+    .badge-published:hover { background: rgba(248, 81, 73, .8); color: #fff; }
     .badge-upcoming { background: #3a2a10; color: #d29922; }
+    .badge-not-coming { background: rgba(248, 81, 73, .8); color: #fff; }
     .site-footer { border-top-color: #3a3a3a; color: #999; }
   }
   @media (max-width: 700px) {
@@ -135,21 +145,30 @@
 
 <h2>Posts</h2>
 <div class="series-nav">
-  <div class="post-item">
+  <div class="post-item post-item-published">
     <a href="posts/01-micrograd.html">01 - Building Micrograd</a>
     <span class="badge badge-published">Published</span>
   </div>
   <div class="post-item">
     <a href="posts/02-transformers.html">02 - The Transformer Architecture</a>
-    <span class="badge badge-upcoming">Upcoming</span>
+    <div class="status-badges">
+      <span class="badge badge-upcoming">Upcoming</span>
+      <span class="badge badge-not-coming">Not Coming</span>
+    </div>
   </div>
   <div class="post-item">
     <a href="posts/03-mini-gpt.html">03 - Mini GPT &amp; Tokenizer</a>
-    <span class="badge badge-upcoming">Upcoming</span>
+    <div class="status-badges">
+      <span class="badge badge-upcoming">Upcoming</span>
+      <span class="badge badge-not-coming">Not Coming</span>
+    </div>
   </div>
   <div class="post-item">
     <a href="posts/04-mini-vllm.html">04 - Mini vLLM</a>
-    <span class="badge badge-upcoming">Upcoming</span>
+    <div class="status-badges">
+      <span class="badge badge-upcoming">Upcoming</span>
+      <span class="badge badge-not-coming">Not Coming</span>
+    </div>
   </div>
 </div>
 
