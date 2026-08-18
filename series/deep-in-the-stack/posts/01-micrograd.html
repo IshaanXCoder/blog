@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Coming Soon</title>
+  <title>01 - Building Micrograd</title>
 <style>
   :root { color-scheme: light dark; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     line-height: 1.6;
-    max-width: 46rem;
+    max-width: 62rem;
     margin: 0 auto;
     padding: 2rem 1.25rem 6rem;
     color: #1a1a1a;
@@ -38,6 +38,15 @@
   }
   .coming-soon h1 { font-size: 2rem; margin-bottom: 1rem; }
   .coming-soon p { color: #666; font-size: 1.1rem; }
+  .back-link { display: inline-block; margin-bottom: 1rem; color: #666; text-decoration: none; font-size: .9rem; }
+  .back-link:hover { color: #1a1a1a; }
+  .site-footer { margin-top: 4rem; padding-top: 1rem; border-top: 1px solid #ddd; color: #666; font-size: .85rem; }
+  .site-footer p { margin: .2rem 0; }
+  .site-footer a { color: inherit; margin-right: .75rem; }
+  .post-layout { display: grid; grid-template-columns: minmax(0, 1fr) 18rem; gap: 2rem; align-items: start; }
+  .post-content { min-width: 0; }
+  .closure { position: sticky; top: 2rem; }
+  .closure h2 { margin-top: 0; }
   @media (prefers-color-scheme: dark) {
     body { color: #e4e4e4; background: #191919; }
     h2 { border-top-color: #3a3a3a; }
@@ -52,12 +61,23 @@
     .skip { color: #f85149; }
     .have { color: #58a6ff; }
     .coming-soon p { color: #999; }
+    .back-link { color: #999; }
+    .back-link:hover { color: #e4e4e4; }
+    .site-footer { border-top-color: #3a3a3a; color: #999; }
+  }
+  @media (max-width: 800px) {
+    body { max-width: 46rem; }
+    .post-layout { display: block; }
+    .closure { position: static; margin-top: 2rem; }
   }
 </style>
 </head>
 <body>
 
-<article>
+<a href="../" class="back-link">Deep in the Stack</a>
+
+<div class="post-layout">
+<article class="post-content">
   <h1>01 - Building Micrograd</h1>
   <p class="sub">so this is my journey of understanding what an autograd is, understadning mathematics behind back propagationa and implementing it from scratch. might have a few rants, so keep it up for me</p>
 
@@ -77,8 +97,6 @@
     <li><strong>Micrograd / tiny autograd:</strong> Plain Python implementation, node-by-node and number-by-number gradient propagation, extremely slow but crystal-clear about every step of backpropagation, ideal for learning the mechanics under the hood.</li>
   </ul>
 
-</article>
-  
   <h3>Backpropagation - in a nutshell</h3>
   <p>
     At training time we measure a loss L (how wrong the model is). Backpropagation computes the partial derivatives of that loss with respect to each parameter (weights and biases) using the chain rule. For a single neuron with
@@ -100,6 +118,9 @@
     <strong>Rant:</strong> I start watching the video, 10 seconds in I already have a set of doubts for Claude; I spend 10 minutes cross-questioning and the cycle loops.
   </div>
 
+</article>
+
+<aside class="closure">
   <h2>So… this post never got finished</h2>
   <p>
     Fair. Life happened. Right after I started writing this I got an on-campus internship, went into a pretty chill mood, and then immediately landed a full-time role at a US-based startup. That energy just went elsewhere.
@@ -110,6 +131,18 @@
   <p>
     I did come back to micrograd eventually. Speedran it, tbh. Understood everything, implemented everything, the whole thing. Just got too lazy to write about it here. The learnings are there, they just live in my head and the repo now. Maybe I'll circle back when I feel like it, or maybe this post stays as the incomplete artifact it is. Either way, micrograd is done. Just the writing wasn't.
   </p>
+</aside>
+</div>
+
+  <footer class="site-footer">
+    <p>Ishaan's blog</p>
+    <p><a href="mailto:kesarwaniishaan4@gmail.com">kesarwaniishaan4@gmail.com</a></p>
+    <p>
+      <a href="https://github.com/IshaanXCoder" target="_blank" rel="noreferrer">GitHub</a>
+      <a href="https://linkedin.com/in/ishaan-kesarwani" target="_blank" rel="noreferrer">LinkedIn</a>
+      <a href="https://x.com/0xIshaanK06" target="_blank" rel="noreferrer">Twitter</a>
+    </p>
+  </footer>
 
 </body>
 </html>
