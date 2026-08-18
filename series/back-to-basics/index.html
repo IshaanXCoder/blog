@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>back to basics - series</title>
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 6rem;
+    color: #1a1a1a;
+    background: #fff;
+  }
+  h1 { font-size: 1.75rem; margin: 0 0 .25rem; }
+  h2 { font-size: 1.3rem; margin: 2.5rem 0 .75rem; padding-top: 1rem; border-top: 1px solid #ddd; }
+  h3 { font-size: 1.05rem; margin: 1.75rem 0 .5rem; }
+  .sub { color: #666; margin: 0 0 1.5rem; font-size: .9rem; }
+  .note { border-left: 3px solid #999; padding: .6rem 0 .6rem 1rem; margin: 1.25rem 0; color: #444; }
+  .warn { border-left-color: #c0392b; }
+  .build { color: #1a7f37; font-weight: 600; }
+  .partner { color: #DE7356; font-weight: 600; }
+  .back-link { display: inline-block; margin-bottom: 1rem; color: #666; text-decoration: none; font-size: .9rem; }
+  .back-link:hover { color: #1a1a1a; }
+  .back-link::before { content: "← "; }
+  .playlist { margin: 1.5rem 0; }
+  .playlist iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 6px; }
+  .playlist figcaption { margin-top: .6rem; color: #666; font-size: .85rem; }
+  .playlist a { color: inherit; }
+  .site-footer { margin-top: 4rem; padding-top: 1rem; border-top: 1px solid #ddd; color: #666; font-size: .85rem; }
+  .site-footer p { margin: .2rem 0; }
+  .site-footer a { color: inherit; margin-right: .75rem; }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e4e4e4; background: #191919; }
+    h2 { border-top-color: #3a3a3a; }
+    .sub, .playlist figcaption { color: #999; }
+    .note { color: #bbb; border-left-color: #666; }
+    .warn { border-left-color: #e74c3c; }
+    .build { color: #3fb950; }
+    .partner { color: #DE7356; }
+    .back-link { color: #999; }
+    .back-link:hover { color: #e4e4e4; }
+    .site-footer { border-top-color: #3a3a3a; color: #999; }
+  }
+</style>
+</head>
+<body>
+
+<a href="../../" class="back-link">all series</a>
+
+<h1>back to basics</h1>
+<p class="sub">stanford cs336: language modeling from scratch</p>
+
+<p>
+  i've spent enough time using ai, learning some basic stuff. now i wanna understand what the hell is actually going on underneath.
+</p>
+
+<p>
+  so i'm going through <span class="build">stanford cs336 - language modeling from scratch</span>.
+</p>
+
+<p>
+  there's a friend of mine who recommended this course to me (<a class="partner" href="https://x.com/sohamz" target="_blank" rel="noreferrer">@sohamz</a>). he knows every stanford course code by heart, but doesnt know shit about the courses we've got.
+</p>
+
+<div class="note warn">
+  <strong>no skipping the boring stuff.</strong> no pretending i know everything.
+</div>
+
+<h2>the playlist</h2>
+<p>
+  this is the roadmap we're following:
+</p>
+
+<figure class="playlist">
+  <iframe
+    src="https://www.youtube-nocookie.com/embed/videoseries?list=PLoROMvodv4rOY23Y0BoGoBGgQ1zmU_MT_"
+    title="stanford cs336 language modeling from scratch playlist"
+    loading="lazy"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen></iframe>
+  <figcaption>
+    stanford cs336: language modeling from scratch. <a href="https://www.youtube.com/watch?v=SQ3fZ1sAqXI&amp;list=PLoROMvodv4rOY23Y0BoGoBGgQ1zmU_MT_" target="_blank" rel="noreferrer">watch the playlist</a>.
+  </figcaption>
+</figure>
+
+<h2>what i'm trying to figure out</h2>
+<p>
+  not just how to use a language model.
+</p>
+
+<p>
+  i wanna understand the actual stuff behind it <span class="build">-&gt;</span> tokenization, data, transformers, training, optimization, evaluation and all the weird little details hidden behind <code>api.call()</code>.
+</p>
+
+<div class="note warn">
+  <strong>this won't be a lecture transcript.</strong> this is more of a learning log for me.
+</div>
+
+<footer class="site-footer">
+  <p>ishaan's blog</p>
+  <p><a href="mailto:kesarwaniishaan4@gmail.com">kesarwaniishaan4@gmail.com</a></p>
+  <p>
+    <a href="https://github.com/IshaanXCoder" target="_blank" rel="noreferrer">github</a>
+    <a href="https://linkedin.com/in/ishaan-kesarwani" target="_blank" rel="noreferrer">linkedin</a>
+    <a href="https://x.com/0xIshaanK06" target="_blank" rel="noreferrer">twitter</a>
+  </p>
+</footer>
+
+</body>
+</html>
