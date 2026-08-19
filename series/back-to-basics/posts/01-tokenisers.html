@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>01 - tokenisers: the first rabbit hole</title>
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 6rem;
+    color: #1a1a1a;
+    background: #fff;
+  }
+  h1 { font-size: 1.75rem; margin: 0 0 .25rem; }
+  h2 { font-size: 1.3rem; margin: 2.5rem 0 .75rem; padding-top: 1rem; border-top: 1px solid #ddd; }
+  h3 { font-size: 1.05rem; margin: 1.75rem 0 .5rem; }
+  .sub { color: #666; margin: 0 0 1.5rem; font-size: .9rem; }
+  .note { border-left: 3px solid #999; padding: .6rem 0 .6rem 1rem; margin: 1.25rem 0; color: #444; }
+  .warn { border-left-color: #c0392b; }
+  .build { color: #1a7f37; font-weight: 600; }
+  .partner { color: #DE7356; font-weight: 600; }
+  code { background: #f2f2f2; padding: .1rem .3rem; border-radius: 3px; font-size: .85em; }
+  a { color: inherit; }
+  .back-link { display: inline-block; margin-bottom: 1rem; color: #666; text-decoration: none; font-size: .9rem; }
+  .back-link:hover { color: #1a1a1a; }
+  .back-link::before { content: "← "; }
+  .sources { padding-left: 1.2rem; }
+  .sources li { margin: .5rem 0; }
+  .site-footer { margin-top: 4rem; padding-top: 1rem; border-top: 1px solid #ddd; color: #666; font-size: .85rem; }
+  .site-footer p { margin: .2rem 0; }
+  .site-footer a { color: inherit; margin-right: .75rem; }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e4e4e4; background: #191919; }
+    h2 { border-top-color: #3a3a3a; }
+    .sub { color: #999; }
+    .note { color: #bbb; border-left-color: #666; }
+    .warn { border-left-color: #e74c3c; }
+    .build { color: #3fb950; }
+    .partner { color: #DE7356; }
+    code { background: #262626; }
+    .back-link { color: #999; }
+    .back-link:hover { color: #e4e4e4; }
+    .site-footer { border-top-color: #3a3a3a; color: #999; }
+  }
+</style>
+</head>
+<body>
+
+<a href="../" class="back-link">back to basics</a>
+
+<article>
+  <h1>01 - tokenisers: the first rabbit hole</h1>
+  <p class="sub">lecture 1 of stanford cs336: language modeling from scratch</p>
+
+  <p>
+    lecture 1 was mostly a quick overview. a map of what the course is going to cover, how the pieces fit together, and enough context to not feel completely lost later.
+  </p>
+
+  <p>
+    honestly, most of the lecture was meant to be skipped. there wasn't much value in writing down every slide from a fast tour through the syllabus and the setup. so i skimmed it, kept the broad picture, and moved on.
+  </p>
+
+  <h2>then tokenisers appeared</h2>
+
+  <p>
+    towards the end, we moved a little closer to tokenisers. that was enough to send me into the usual rabbit hole: i opened a few tabs, started looking up how tokenisation works, and somehow ended up reading about the different ways text gets broken down before a language model sees it.
+  </p>
+
+  <p>
+    the basic problem is pretty simple. a language model does not read a sentence as a sentence. it needs numbers. a tokeniser turns text into small pieces and maps those pieces to token ids.
+  </p>
+
+  <div class="note">
+    <strong>the useful mental model:</strong> text <span class="build">-&gt;</span> tokens <span class="build">-&gt;</span> token ids <span class="build">-&gt;</span> the model.
+  </div>
+
+  <h2>the bpe rabbit hole</h2>
+
+  <p>
+    bpe, or byte pair encoding, was the one that pulled me in. the rough idea is very readable:
+  </p>
+
+  <p>
+    i mostly knew how bpe works already, at least in the “yeah, it merges frequent pairs” kind of way. but that is exactly the sort of knowledge that becomes dangerous when you start implementing it. so i decided to pretend i knew nothing and start from square zero.
+  </p>
+
+  <ol>
+    <li>start with small units, usually bytes;</li>
+    <li>find the pair that appears most often;</li>
+    <li>merge that pair into a new token;</li>
+    <li>repeat until the vocabulary reaches the size you want.</li>
+  </ol>
+
+  <p>
+    repeated patterns gradually become useful chunks. a frequent piece like <code>ing</code> might become one token, but a rare or new word can still fall back to smaller pieces. during encoding, the learned merges are applied again to turn new text into token ids. decoding reverses that process.
+  </p>
+
+  <p>
+    this sounds simple enough until you start thinking about unicode, bytes, whitespace, special tokens, merge ordering, vocab files, and all the little edge cases hiding behind “just split the text”. classic.
+  </p>
+
+  <h2>the tabs i opened</h2>
+
+  <p>
+    i came across <a class="partner" href="https://github.com/NLPOptimize/awesome-tokenizers" target="_blank" rel="noreferrer">awesome-tokenizers</a>, a curated list of tokenizer implementations.
+  </p>
+
+  <p>
+    i also went through this great post by <a class="partner" href="https://x.com/rasbt" target="_blank" rel="noreferrer">@rasbt</a>: <a class="partner" href="https://sebastianraschka.com/blog/2025/bpe-from-scratch.html" target="_blank" rel="noreferrer">bpe tokenizer from scratch</a>.
+  </p>
+
+  <h2>what happens next</h2>
+
+  <p>
+    now i want to implement a basic tokeniser myself. probably in rust. idk, let's see.
+  </p>
+
+</article>
+
+<footer class="site-footer">
+  <p>ishaan's blog</p>
+  <p><a href="mailto:kesarwaniishaan4@gmail.com">kesarwaniishaan4@gmail.com</a></p>
+  <p>
+    <a href="https://github.com/IshaanXCoder" target="_blank" rel="noreferrer">github</a>
+    <a href="https://linkedin.com/in/ishaan-kesarwani" target="_blank" rel="noreferrer">linkedin</a>
+    <a href="https://x.com/0xIshaanK06" target="_blank" rel="noreferrer">twitter</a>
+  </p>
+</footer>
+
+</body>
+</html>

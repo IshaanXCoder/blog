@@ -9,7 +9,7 @@
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     line-height: 1.6;
-    max-width: 46rem;
+    max-width: 60rem;
     margin: 0 auto;
     padding: 2rem 1.25rem 6rem;
     color: #1a1a1a;
@@ -30,6 +30,32 @@
   .playlist iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 6px; }
   .playlist figcaption { margin-top: .6rem; color: #666; font-size: .85rem; }
   .playlist a { color: inherit; }
+  .series-layout { display: grid; grid-template-columns: minmax(0, 1fr) 15rem; gap: 2rem; align-items: start; }
+  .posts-panel { grid-column: 2; grid-row: 1; position: sticky; top: 2rem; }
+  .posts-panel h2 { margin-top: 0; }
+  .series-content { grid-column: 1; grid-row: 1; }
+  .posts { display: grid; gap: .75rem; margin: 1.5rem 0; }
+  .post-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: .9rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  .post-item a { color: inherit; text-decoration: none; font-weight: 600; }
+  .post-item a:hover { color: #1a7f37; }
+  .badge {
+    flex: 0 0 auto;
+    color: #9a6700;
+    background: #fef7e0;
+    border-radius: 3px;
+    padding: .15rem .45rem;
+    font-size: .7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
   .site-footer { margin-top: 4rem; padding-top: 1rem; border-top: 1px solid #ddd; color: #666; font-size: .85rem; }
   .site-footer p { margin: .2rem 0; }
   .site-footer a { color: inherit; margin-right: .75rem; }
@@ -43,7 +69,14 @@
     .partner { color: #DE7356; }
     .back-link { color: #999; }
     .back-link:hover { color: #e4e4e4; }
+    .post-item { border-color: #3a3a3a; }
+    .badge { color: #d29922; background: #3a2a10; }
     .site-footer { border-top-color: #3a3a3a; color: #999; }
+  }
+  @media (max-width: 700px) {
+    .series-layout { display: flex; flex-direction: column; }
+    .posts-panel, .series-content { width: 100%; }
+    .posts-panel { position: static; order: -1; }
   }
 </style>
 </head>
@@ -54,51 +87,65 @@
 <h1>back to basics</h1>
 <p class="sub">stanford cs336: language modeling from scratch</p>
 
-<p>
-  i've spent enough time using ai, learning some basic stuff. now i wanna understand what the hell is actually going on underneath.
-</p>
+<div class="series-layout">
+  <aside class="posts-panel">
+    <h2>posts</h2>
+    <div class="posts">
+      <div class="post-item">
+        <a href="posts/01-tokenisers.html">01 - tokenisers: the first rabbit hole</a>
+        <span class="badge">under progress</span>
+      </div>
+    </div>
+  </aside>
 
-<p>
-  so i'm going through <span class="build">stanford cs336 - language modeling from scratch</span>.
-</p>
+  <main class="series-content">
+    <p>
+      i've spent enough time using ai, learning some basic stuff. now i wanna understand what the hell is actually going on underneath.
+    </p>
 
-<p>
-  there's a friend of mine who recommended this course to me (<a class="partner" href="https://x.com/sohxmmmm" target="_blank" rel="noreferrer">@sohxmmmm</a>). he knows every stanford course code by heart, but doesnt know shit about the courses we've got.
-</p>
+    <p>
+      so i'm going through <span class="build">stanford cs336 - language modeling from scratch</span>.
+    </p>
 
-<div class="note warn">
-  <strong>no skipping the boring stuff.</strong> no pretending i know everything.
-</div>
+    <p>
+      there's a friend of mine who recommended this course to me (<a class="partner" href="https://x.com/sohxmmmm" target="_blank" rel="noreferrer">@sohxmmmm</a>). he knows every stanford course code by heart, but doesnt know shit about the courses we've got in our university.
+    </p>
 
-<h2>the playlist</h2>
-<p>
-  this is the roadmap we're following:
-</p>
+    <div class="note warn">
+      <strong>no skipping the boring stuff.</strong> no pretending i know everything.
+    </div>
 
-<figure class="playlist">
-  <iframe
-    src="https://www.youtube-nocookie.com/embed/videoseries?list=PLoROMvodv4rOY23Y0BoGoBGgQ1zmU_MT_"
-    title="stanford cs336 language modeling from scratch playlist"
-    loading="lazy"
-    referrerpolicy="strict-origin-when-cross-origin"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-    allowfullscreen></iframe>
-  <figcaption>
-    stanford cs336: language modeling from scratch. <a href="https://www.youtube.com/watch?v=SQ3fZ1sAqXI&amp;list=PLoROMvodv4rOY23Y0BoGoBGgQ1zmU_MT_" target="_blank" rel="noreferrer">watch the playlist</a>.
-  </figcaption>
-</figure>
+    <h2>the playlist</h2>
+    <p>
+      this is the roadmap we're following:
+    </p>
 
-<h2>what i'm trying to figure out</h2>
-<p>
-  not just how to use a language model.
-</p>
+    <figure class="playlist">
+      <iframe
+        src="https://www.youtube-nocookie.com/embed/videoseries?list=PLoROMvodv4rOY23Y0BoGoBGgQ1zmU_MT_"
+        title="stanford cs336 language modeling from scratch playlist"
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen></iframe>
+      <figcaption>
+        stanford cs336: language modeling from scratch. <a href="https://www.youtube.com/watch?v=SQ3fZ1sAqXI&amp;list=PLoROMvodv4rOY23Y0BoGoBGgQ1zmU_MT_" target="_blank" rel="noreferrer">watch the playlist</a>.
+      </figcaption>
+    </figure>
 
-<p>
-  i wanna understand the actual stuff behind it <span class="build">-&gt;</span> tokenization, data, transformers, training, optimization, evaluation and all the weird little details hidden behind <code>api.call()</code>.
-</p>
+    <h2>what i'm trying to figure out</h2>
+    <p>
+      not just how to use a language model.
+    </p>
 
-<div class="note warn">
-  <strong>this won't be a lecture transcript.</strong> this is more of a learning log for me.
+    <p>
+      i wanna understand the actual stuff behind it <span class="build">-&gt;</span> tokenization, data, transformers, training, optimization, evaluation and all the weird little details hidden behind <code>api.call()</code>.
+    </p>
+
+    <div class="note warn">
+      <strong>this won't be a lecture transcript.</strong> this is more of a learning log for me.
+    </div>
+  </main>
 </div>
 
 <footer class="site-footer">
