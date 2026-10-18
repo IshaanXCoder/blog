@@ -4,122 +4,36 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Deep in the Stack - Series</title>
-<style>
-  :root { color-scheme: light dark; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    line-height: 1.6;
-    max-width: 46rem;
-    margin: 0 auto;
-    padding: 2rem 1.25rem 6rem;
-    color: #1a1a1a;
-    background: #fff;
-  }
-  h1 { font-size: 1.75rem; margin: 0 0 .25rem; }
-  h2 { font-size: 1.3rem; margin: 2.5rem 0 .75rem; padding-top: 1rem; border-top: 1px solid #ddd; }
-  h3 { font-size: 1.05rem; margin: 1.75rem 0 .5rem; }
-  .sub { color: #666; margin: 0 0 1.5rem; font-size: .9rem; }
-  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: .9rem; }
-  th, td { border: 1px solid #ccc; padding: .4rem .6rem; text-align: left; vertical-align: top; }
-  th { background: #f2f2f2; font-weight: 600; }
-  code { background: #f2f2f2; padding: .1rem .3rem; border-radius: 3px; font-size: .85em; }
-  .note { border-left: 3px solid #999; padding: .6rem 0 .6rem 1rem; margin: 1.25rem 0; color: #444; }
-  .warn { border-left-color: #c0392b; }
-  .build { color: #1a7f37; font-weight: 600; }
-  .partner { color: #DE7356; font-weight: 600; }
-  .skip { color: #c0392b; font-weight: 600; }
-  .have { color: #0969da; font-weight: 600; }
-  ul, ol { padding-left: 1.4rem; }
-  li { margin: .3rem 0; }
-  .wrap { overflow-x: auto; }
-  .back-link { display: inline-block; margin-bottom: 1rem; color: #666; text-decoration: none; font-size: .9rem; }
-  .back-link:hover { color: #1a1a1a; }
-  .back-link::before { content: "← "; }
-  .series-nav {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: .75rem;
-    margin: 1.5rem 0;
-  }
-  .series-nav a {
-    display: block;
-    padding: 0;
-    border: 0;
-    text-decoration: none;
-    color: inherit;
-  }
-  .post-item {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: .6rem;
-    min-width: 0;
-    min-height: 7rem;
-    padding: .9rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    transition: border-color 0.15s ease;
-  }
-  .post-item:hover { border-color: #999; }
-  .post-item a { color: inherit; text-decoration: none; font-weight: 600; line-height: 1.35; }
-  .post-item a:hover { color: #1a7f37; }
-  .post-item-published:hover { background: rgba(192, 57, 43, .8); border-color: rgba(192, 57, 43, .8); color: #fff; }
-  .post-item-published:hover a,
-  .post-item-published:hover a:hover,
-  .post-item-published:hover .badge-published { background: transparent; color: #fff; }
-  .badge {
-    font-size: .7rem;
-    padding: .15rem .45rem;
-    border-radius: 3px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: .03em;
-  }
-  .badge-published { background: #e6f4ea; color: #1a7f37; }
-  .badge-published:hover { background: rgba(192, 57, 43, .8); color: #fff; }
-  .badge-upcoming { background: #fef7e0; color: #9a6700; text-decoration: line-through; }
-  .badge-not-coming { background: rgba(192, 57, 43, .8); color: #fff; }
-  .status-badges { display: flex; gap: .4rem; flex-wrap: wrap; }
-  .site-footer { margin-top: 4rem; padding-top: 1rem; border-top: 1px solid #ddd; color: #666; font-size: .85rem; }
-  .site-footer p { margin: .2rem 0; }
-  .site-footer a { color: inherit; margin-right: .75rem; }
-  @media (prefers-color-scheme: dark) {
-    body { color: #e4e4e4; background: #191919; }
-    h2 { border-top-color: #3a3a3a; }
-    th { background: #262626; }
-    th, td { border-color: #3a3a3a; }
-    code { background: #262626; }
-    .sub { color: #999; }
-    .note { color: #bbb; border-left-color: #666; }
-    .warn { border-left-color: #e74c3c; }
-    .build { color: #3fb950; }
-    .partner { color: #DE7356; }
-    .skip { color: #f85149; }
-    .have { color: #58a6ff; }
-    .back-link { color: #999; }
-    .back-link:hover { color: #e4e4e4; }
-    .post-item { border-color: #3a3a3a; }
-    .post-item:hover { border-color: #555; }
-    .post-item-published:hover { background: rgba(248, 81, 73, .8); border-color: rgba(248, 81, 73, .8); }
-    .badge-published { background: #1a3a2a; color: #3fb950; }
-    .badge-published:hover { background: rgba(248, 81, 73, .8); color: #fff; }
-    .badge-upcoming { background: #3a2a10; color: #d29922; }
-    .badge-not-coming { background: rgba(248, 81, 73, .8); color: #fff; }
-    .site-footer { border-top-color: #3a3a3a; color: #999; }
-  }
-  @media (max-width: 700px) {
-    .series-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  }
-</style>
+
+<link rel="stylesheet" href="../../assets/blog.css">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem("ishaan-blog-theme")||"dark";}catch{}</script>
+<script type="module" src="../../assets/blog.js"></script>
 </head>
-<body>
-
-<a href="../../" class="back-link">All Series</a>
-
+<body id="top">
+<div class="reading-progress" role="progressbar" aria-label="Page reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="site-name" href="../../">Ishaan's blog</a>
+  <a class="portfolio-link" href="https://ishaanxcoder.github.io/">Portfolio</a>
+  <button class="theme-toggle" type="button" aria-label="Switch to light theme">
+    <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+    <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20.5 13.5A8.5 8.5 0 0 1 10.5 3a8.5 8.5 0 1 0 10 10.5Z"/></svg>
+  </button>
+</header>
+<main id="main">
+<a href="../../" class="back-link">All writing</a>
 <h1>Deep in the Stack</h1>
+<p class="series-status">Unfinished series</p>
 <p class="sub">Exploring AI infrastructure, one layer at a time</p>
-
-<h2>How This Started</h2>
+<section class="series-section" aria-labelledby="posts-heading">
+<h2 id="posts-heading">Posts</h2>
+<ul class="writing-list">
+<li><a href="posts/01-micrograd.html"><span class="writing-title">01 — Building Micrograd</span><span class="writing-meta">Unfinished note</span></a></li>
+<li><span class="writing-unavailable"><span>02 — The Transformer Architecture</span><span class="writing-meta">Not continued</span></span></li>
+<li><span class="writing-unavailable"><span>03 — Mini GPT &amp; Tokenizer</span><span class="writing-meta">Not continued</span></span></li>
+<li><span class="writing-unavailable"><span>04 — Mini vLLM</span><span class="writing-meta">Not continued</span></span></li>
+</ul>
+</section><h2>How This Started</h2>
 <p>
   I was bored. Just scrolling X, watching the same surface-level AI news over and over, new model drops, benchmark scores, the usual hype cycle.
   Struck my mind that I'm just consuming some info superficially, idk what is happening under the hood.
@@ -143,44 +57,16 @@
   This series is the documentation of that journey. Every step, every build, every misunderstanding along the way.
 </p>
 
-<h2>Posts</h2>
-<div class="series-nav">
-  <div class="post-item post-item-published">
-    <a href="posts/01-micrograd.html">01 - Building Micrograd</a>
-    <span class="badge badge-published">Published</span>
-  </div>
-  <div class="post-item">
-    <a href="posts/02-transformers.html">02 - The Transformer Architecture</a>
-    <div class="status-badges">
-      <span class="badge badge-upcoming">Upcoming</span>
-      <span class="badge badge-not-coming">Not Coming</span>
-    </div>
-  </div>
-  <div class="post-item">
-    <a href="posts/03-mini-gpt.html">03 - Mini GPT &amp; Tokenizer</a>
-    <div class="status-badges">
-      <span class="badge badge-upcoming">Upcoming</span>
-      <span class="badge badge-not-coming">Not Coming</span>
-    </div>
-  </div>
-  <div class="post-item">
-    <a href="posts/04-mini-vllm.html">04 - Mini vLLM</a>
-    <div class="status-badges">
-      <span class="badge badge-upcoming">Upcoming</span>
-      <span class="badge badge-not-coming">Not Coming</span>
-    </div>
-  </div>
-</div>
 
+</main>
 <footer class="site-footer">
   <p>Ishaan's blog</p>
   <p><a href="mailto:kesarwaniishaan4@gmail.com">kesarwaniishaan4@gmail.com</a></p>
   <p>
     <a href="https://github.com/IshaanXCoder" target="_blank" rel="noreferrer">GitHub</a>
     <a href="https://linkedin.com/in/ishaan-kesarwani" target="_blank" rel="noreferrer">LinkedIn</a>
-    <a href="https://x.com/0xIshaanK06" target="_blank" rel="noreferrer">Twitter</a>
+    <a href="https://x.com/0xIshaanK06" target="_blank" rel="noreferrer">X</a>
   </p>
 </footer>
-
 </body>
 </html>
