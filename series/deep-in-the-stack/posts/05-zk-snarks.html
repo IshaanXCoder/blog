@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>05 - zk-SNARKs, Explained</title>
+
+<link rel="stylesheet" href="../../../assets/blog.css">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem("ishaan-blog-theme")||"dark";}catch{}</script>
+<script type="module" src="../../../assets/blog.js"></script>
+</head>
+<body id="top" class="post-page">
+<div class="reading-progress" role="progressbar" aria-label="Page reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="site-name" href="../../../">Ishaan's blog</a>
+  <a class="portfolio-link" href="https://ishaanxcoder.github.io/">Portfolio</a>
+  <button class="theme-toggle" type="button" aria-label="Switch to light theme">
+    <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+    <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20.5 13.5A8.5 8.5 0 0 1 10.5 3a8.5 8.5 0 1 0 10 10.5Z"/></svg>
+  </button>
+</header>
+<main class="reading-layout" id="main">
+<details class="toc" open><summary>On this page</summary><nav aria-label="On this page"><ul></ul></nav></details>
+<article class="post-content">
+<a href="../" class="back-link">Deep in the Stack</a>
+  <h1>05 - zk-SNARKs, Explained</h1>
+  <p class="sub">What a zero-knowledge proof actually proves, how a SNARK gets there without running the computation again, and where this shows up outside of crypto Twitter.</p>
+
+  <p>
+    A zk-SNARK lets you prove a statement is true without showing anyone why. The name is a mouthful: Zero-Knowledge Succinct Non-Interactive Argument of Knowledge. Each word is doing real work, so it's worth taking them one at a time before getting into how the proof is built.
+  </p>
+
+  <h2>What zk-SNARKs actually are</h2>
+  <p>
+    Zero-knowledge means the proof reveals nothing about the inputs beyond the fact that the statement holds. You can prove you know a password without sending the password. Succinct means the proof is small and fast to check, regardless of how big or slow the original computation was: a proof that you correctly ran a computation taking an hour might still be a few hundred bytes and verify in milliseconds. Non-interactive means the prover sends one proof and the verifier checks it on their own, with no back-and-forth. Argument of knowledge means the prover isn't just claiming the statement is true, they're claiming to actually possess the information (the "witness") that makes it true, and the proof is only computationally hard to fake, not mathematically impossible.
+  </p>
+  <p>
+    Put together, you get a tool for a specific kind of problem: one party has done some computation, or knows some secret, and wants to convince another party of that fact without redoing the work or revealing the secret.
+  </p>
+
+  <h2>How a proof works, at a high level</h2>
+  <p>
+    The pipeline behind a SNARK has three stages: turn the computation into math, commit to that math cheaply, and let the verifier spot-check it.
+  </p>
+  <p>
+    <strong>1. Arithmetization.</strong> The statement you want to prove ("I ran this program and got this output", "I know a value that hashes to this") gets converted into a circuit of additions and multiplications, then into a system of polynomial equations. This step is why SNARKs were historically painful to build with: writing a program as an arithmetic circuit is a different skill from writing a program.
+  </p>
+  <p>
+    <strong>2. Polynomial commitment.</strong> Instead of sending the verifier the full set of equations (which would be as large as the original computation, defeating the purpose), the prover commits to the polynomials using a cryptographic commitment scheme. A commitment is a short fingerprint of the polynomial that the prover can't change after the fact, and that lets the verifier ask the prover to "open" the polynomial at a specific point later, without ever seeing the whole thing. KZG commitments and FRI are the two schemes you'll run into most.
+  </p>
+  <p>
+    <strong>3. Spot-checking via random evaluation.</strong> Here's the trick that makes everything succinct: two different polynomials can't agree at too many points, unless they're the same polynomial. So instead of checking an equation holds everywhere, the verifier picks a random point and asks the prover to open the committed polynomials there. If the equation holds at that one random point, it's true almost everywhere, with overwhelming probability. The Fiat-Shamir heuristic is what makes this non-interactive: instead of the verifier picking the random point live, it's derived by hashing the proof itself, so the prover can't see the challenge in advance and tailor a fake answer to it.
+  </p>
+  <p>
+    The verifier's work at the end is just: check a handful of commitment openings and a couple of equations. That's it, regardless of whether the underlying computation was a single hash or a full day of a zkEVM executing transactions. That gap, between how expensive the computation was and how cheap the proof is to check, is the entire value proposition.
+  </p>
+  <div class="note warn">
+    <strong>Worth knowing:</strong> most SNARK constructions (Groth16 being the classic example) need a trusted setup: a one-time ceremony that generates public parameters, where if anyone involved kept the "toxic waste" from the ceremony, they could forge proofs. Newer systems like PLONK and STARKs either need a universal setup done once for all circuits, or no trusted setup at all, at the cost of bigger proofs.
+  </div>
+
+  <h2>A real use case: rollups</h2>
+  <p>
+    The clearest production use of zk-SNARKs today is zk-rollups on Ethereum. A rollup executes thousands of transactions off-chain, then needs to convince the Ethereum mainnet that the resulting state is correct, without mainnet re-executing every transaction itself, because that would defeat the point of scaling.
+  </p>
+  <p>
+    A zk-rollup does this literally: it runs the batch of transactions through a SNARK circuit, produces a succinct proof that "applying these transactions to the old state root correctly produces this new state root", and posts that proof on-chain. Ethereum's verifier contract checks the proof in roughly constant time and gas cost, no matter how many transactions were in the batch. That's the succinctness property doing real economic work: it's what lets a rollup batch thousands of transfers and swaps into one proof that costs about as much to verify as a single transaction would.
+  </p>
+  <p>
+    This is also why zk-rollups don't need the week-long challenge period that optimistic rollups do. An optimistic rollup assumes transactions are valid and gives anyone a window to submit fraud proofs if they're not, which is what makes withdrawals slow. A zk-rollup proves validity upfront, so once the proof verifies on-chain, the new state is final. The cost shows up elsewhere: generating the proof is computationally heavy (a prover running specialized hardware, not just a laptop), and arithmetizing a general-purpose virtual machine like the EVM into circuits is a genuinely hard engineering problem, which is most of what projects like zkSync, Scroll, and Polygon zkEVM spend their engineering effort on.
+  </p>
+
+
+  <h2>SNARKs vs STARKs, briefly</h2>
+  <p>
+    STARKs solve the same problem but swap out the cryptographic machinery: no trusted setup, no elliptic curve pairings, just hash functions and the FRI protocol for the polynomial commitment step. That makes STARKs believed to be resistant to quantum computers, since their security doesn't lean on the discrete log problem the way Groth16 and PLONK do. The trade-off is proof size: a typical SNARK proof is a few hundred bytes, while a STARK proof usually runs tens of kilobytes. For a rollup posting proofs to Ethereum where calldata costs money, that difference is not academic, it's one of the reasons most production zk-rollups today still lean on SNARK-style proving systems rather than pure STARKs, even though STARKs are arguably the more future-proof choice.
+  </p>
+  <h2>Where this leaves you</h2>
+  <p>
+    If you take one thing from this: a SNARK is not magic that skips computation, it's a way to make someone else's claim about a computation cheap to check instead of expensive to redo. The "zero-knowledge" part gets most of the marketing attention, but for a lot of real deployments like rollups, it's the succinctness that pays the bills. The privacy use cases (private transactions, identity proofs, proof of reserves without revealing balances) lean more on the zero-knowledge half, and are worth a follow-up post of their own.
+  </p>
+
+</article>
+</main>
+<footer class="site-footer">
+    <p>Ishaan's blog</p>
+    <p><a href="mailto:kesarwaniishaan4@gmail.com">kesarwaniishaan4@gmail.com</a></p>
+    <p>
+      <a href="https://github.com/IshaanXCoder" target="_blank" rel="noreferrer">GitHub</a>
+      <a href="https://linkedin.com/in/ishaan-kesarwani" target="_blank" rel="noreferrer">LinkedIn</a>
+      <a href="https://x.com/0xIshaanK06" target="_blank" rel="noreferrer">X</a>
+    </p>
+  </footer>
+</body>
+</html>
